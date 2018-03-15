@@ -29,6 +29,17 @@ if (process.env.NODE_ENV != 'production') {
     app.use('/bundle.js', (req, res) => res.sendFile(`${__dirname}/bundle.js`))
 }
 
+app.get('/get-user/:userId', (req, res) => {
+    if (req.session.user.id == req.params.userId) {
+        return res.json({ sameProfile: true })
+    }
+
+    db.getOtherUserInfo(req.params.userId)
+    .then(userInfo => {
+        res.json(userInfo)
+    })
+})
+
 app.get('/get-user', (req, res) => {
     db.getUserInfo(req.session.user.email)
     .then(userInfo => {
@@ -109,6 +120,9 @@ app.post('/update-bio', (req, res) => {
 })
 
 app.get('*', function(req, res) {
+    if (!req.session.user) {
+        return res.redirect('/welcome')
+    }
     res.sendFile(__dirname + '/index.html')
 })
 

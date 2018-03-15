@@ -50,6 +50,16 @@ exports.getUserInfo = function(email) {
     })
 }
 
+exports.getOtherUserInfo = function(id) {
+    const q = `SELECT firstname, lastname, email, id, bio FROM users WHERE id = $1`
+    const params = [ id ]
+    return db.query(q, params).then(results => {
+        return results.rows[0]
+    }).catch(err => {
+        Promise.reject(err)
+    })
+}
+
 exports.updateBio = function(bio, userId) {
     const q = 'UPDATE users SET bio = $1 WHERE id = $2'
     const params = [ bio, userId ]

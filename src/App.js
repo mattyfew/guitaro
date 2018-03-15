@@ -44,7 +44,7 @@ export default class App extends React.Component {
     }
 
     render() {
-        const { firstname, lastname, email, profilePicUrl, bio, showUploader } = this.state
+        const { id, firstname, lastname, email, profilePicUrl, bio, showUploader } = this.state
 
         return (
             <div>
@@ -69,7 +69,7 @@ export default class App extends React.Component {
                                     />
                                 }
                             />
-                            <Route exact path="/user/:userId" component={ OtherProfile } />
+                        <Route exact path="/user/:userId" component={ OtherProfile } />
                         </div>
                     </div>
                 </BrowserRouter>
